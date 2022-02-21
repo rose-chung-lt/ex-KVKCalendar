@@ -26,6 +26,9 @@ public final class CalendarView: UIView {
     public var selectedType: CalendarType {
         parameters.type
     }
+    public var currentView: UIView? {
+      return currentViewCache
+    }
     
     let eventStore = EKEventStore()
     var parameters: Parameters

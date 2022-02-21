@@ -278,8 +278,8 @@ extension WeekView: TimelineDelegate {
         delegate?.didDisplayEvents(events, dates: dates, type: .week)
     }
     
-    func didSelectEvent(_ event: Event, frame: CGRect?) {
-        delegate?.didSelectEvent(event, type: .week, frame: frame)
+    func didSelectEvent(_ event: Event, view: UIView?, frame: CGRect?) {
+        delegate?.didSelectEvent(event, type: .week, view: view, frame: frame)
     }
     
     func nextDate() {

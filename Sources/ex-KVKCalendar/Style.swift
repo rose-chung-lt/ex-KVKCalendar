@@ -405,9 +405,11 @@ public struct YearStyle {
     }
     public var fontTitle: UIFont = .systemFont(ofSize: 19)
     public var colorTitle: UIColor = .black
+    public var colorNowTitle: UIColor = .systemRed
     public var colorBackgroundHeader: UIColor = gainsboro.withAlphaComponent(0.2)
     public var fontTitleHeader: UIFont = .boldSystemFont(ofSize: 40)
     public var colorTitleHeader: UIColor = .black
+    public var colorHightlightTitleHeader: UIColor = .systemRed
     public var heightTitleHeader: CGFloat = 50
     public var alignmentTitleHeader: NSTextAlignment = .left
     public var fontDayTitlePad: UIFont = .systemFont(ofSize: 15)
@@ -595,7 +597,10 @@ extension Style {
             newStyle.year.colorBackgroundWeekendDate = UIColor.useForStyle(dark: .clear,
                                                                            white: newStyle.year.colorBackgroundWeekendDate)
             newStyle.year.colorTitle = UIColor.useForStyle(dark: .white, white: newStyle.year.colorTitle)
+            newStyle.year.colorNowTitle = UIColor.useForStyle(dark: .systemRed, white: newStyle.year.colorNowTitle)
             newStyle.year.colorBackgroundHeader = UIColor.useForStyle(dark: .black, white: newStyle.year.colorBackgroundHeader)
+
+            newStyle.year.colorHightlightTitleHeader = UIColor.useForStyle(dark: .systemRed, white: newStyle.year.colorHightlightTitleHeader)
             newStyle.year.colorTitleHeader = UIColor.useForStyle(dark: .white, white: newStyle.year.colorTitleHeader)
             newStyle.year.colorDayTitle = UIColor.useForStyle(dark: .systemGray, white: newStyle.year.colorDayTitle)
             newStyle.year.colorBackground = UIColor.useForStyle(dark: .black, white: newStyle.year.colorBackground)
@@ -664,9 +669,11 @@ extension YearStyle: Equatable {
         && compare(\.weekFontPhone)
         && compare(\.fontTitle)
         && compare(\.colorTitle)
+        && compare(\.colorNowTitle)
         && compare(\.colorBackgroundHeader)
         && compare(\.fontTitleHeader)
         && compare(\.colorTitleHeader)
+        && compare(\.colorHightlightTitleHeader)
         && compare(\.heightTitleHeader)
         && compare(\.alignmentTitleHeader)
         && compare(\.fontDayTitlePad)

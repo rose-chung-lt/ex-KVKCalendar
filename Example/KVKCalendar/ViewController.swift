@@ -143,7 +143,7 @@ extension ViewController: CalendarDelegate {
         calendarView.reloadData()
     }
     
-    func didSelectEvent(_ event: Event, type: CalendarType, frame: CGRect?) {
+    func didSelectEvent(_ event: Event, type: CalendarType, view: UIView?, frame: CGRect?) {
         print(type, event)
         switch type {
         case .day:

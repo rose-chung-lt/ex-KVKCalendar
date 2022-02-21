@@ -62,7 +62,7 @@ final class YearCell: UICollectionViewCell {
                 return
             }
             
-            titleLabel.textColor = .systemRed
+            titleLabel.textColor = style.year.colorNowTitle
         }
     }
     

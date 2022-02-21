@@ -183,8 +183,9 @@ extension ListView: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let event = params.data.event(indexPath: indexPath)
-        let frameCell = tableView.cellForRow(at: indexPath)?.frame
-        params.delegate?.didSelectEvent(event, type: .list, frame: frameCell)
+        let cell = tableView.cellForRow(at: indexPath)
+        let frameCell = cell?.frame
+        params.delegate?.didSelectEvent(event, type: .list, view: cell?.contentView, frame: frameCell)
     }
     
 }

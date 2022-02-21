@@ -50,7 +50,7 @@ final class AllDayEventView: UIView {
     }
     
     @objc private func tapOnEvent(gesture: UITapGestureRecognizer) {
-        delegate?.didSelectAllDayEvent(event, frame: gesture.view?.frame)
+        delegate?.didSelectAllDayEvent(event, view: gesture.view, frame: gesture.view?.frame)
     }
     
     func selectEvent() {

@@ -518,8 +518,8 @@ extension MonthView: MonthCellDelegate {
         }
     }
     
-    func didSelectEvent(_ event: Event, frame: CGRect?) {
-        delegate?.didSelectEvent(event, type: .month, frame: frame)
+    func didSelectEvent(_ event: Event, view: UIView?, frame: CGRect?) {
+        delegate?.didSelectEvent(event, type: .month, view: view, frame: frame)
     }
     
     func didSelectMore(_ date: Date, frame: CGRect?) {

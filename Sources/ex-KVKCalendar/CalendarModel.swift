@@ -361,7 +361,7 @@ public protocol CalendarDelegate: AnyObject {
     func didSelectDates(_ dates: [Date], type: CalendarType, frame: CGRect?)
     
     /// get a selected event
-    func didSelectEvent(_ event: Event, type: CalendarType, frame: CGRect?)
+    func didSelectEvent(_ event: Event, type: CalendarType, view: UIView?, frame: CGRect?)
     
     /// tap on more fro month view
     func didSelectMore(_ date: Date, frame: CGRect?)
@@ -406,7 +406,7 @@ public extension CalendarDelegate {
     
     func didSelectDates(_ dates: [Date], type: CalendarType, frame: CGRect?)  {}
     
-    func didSelectEvent(_ event: Event, type: CalendarType, frame: CGRect?) {}
+    func didSelectEvent(_ event: Event, type: CalendarType, view: UIView?, frame: CGRect?) {}
     
     func didSelectMore(_ date: Date, frame: CGRect?) {}
     

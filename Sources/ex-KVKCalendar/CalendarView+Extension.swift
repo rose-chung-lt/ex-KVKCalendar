@@ -280,8 +280,8 @@ extension CalendarView: DisplayDelegate {
         delegate?.didDeselectEvent(event, animated: animated)
     }
     
-    public func didSelectEvent(_ event: Event, type: CalendarType, frame: CGRect?) {
-        delegate?.didSelectEvent(event, type: type, frame: frame)
+    public func didSelectEvent(_ event: Event, type: CalendarType, view: UIView?, frame: CGRect?) {
+      delegate?.didSelectEvent(event, type: type, view: view, frame: frame)
     }
     
     public func didSelectMore(_ date: Date, frame: CGRect?) {

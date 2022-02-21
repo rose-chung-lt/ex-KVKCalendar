@@ -239,7 +239,7 @@ final class MonthCell: KVKCollectionViewCell {
             let newFrame = CGRect(x: location.x, y: location.y,
                                   width: gesture.view?.frame.width ?? 0,
                                   height: gesture.view?.frame.size.height ?? 0)
-            delegate?.didSelectEvent(events[idx], frame: newFrame)
+            delegate?.didSelectEvent(events[idx], view: gesture.view, frame: newFrame)
         }
     }
     
@@ -487,7 +487,7 @@ extension MonthCell: PointerInteractionProtocol {
 
 protocol MonthCellDelegate: AnyObject {
     
-    func didSelectEvent(_ event: Event, frame: CGRect?)
+    func didSelectEvent(_ event: Event, view: UIView?, frame: CGRect?)
     func didSelectMore(_ date: Date, frame: CGRect?)
     func didStartMoveEvent(_ event: EventViewGeneral, snapshot: UIView?, gesture: UILongPressGestureRecognizer)
     func didEndMoveEvent(gesture: UILongPressGestureRecognizer)

@@ -18,7 +18,7 @@ typealias ResizeTime = (hour: Int, minute: Int)
 
 protocol TimelineDelegate: AnyObject {
     func didDisplayEvents(_ events: [Event], dates: [Date?])
-    func didSelectEvent(_ event: Event, frame: CGRect?)
+    func didSelectEvent(_ event: Event, view: UIView?, frame: CGRect?)
     func nextDate()
     func previousDate()
     func swipeX(transform: CGAffineTransform, stop: Bool)

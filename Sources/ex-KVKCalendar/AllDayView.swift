@@ -161,8 +161,8 @@ final class AllDayView: UIView {
 
 extension AllDayView: AllDayEventDelegate {
     
-    func didSelectAllDayEvent(_ event: Event, frame: CGRect?) {
-        params.delegate?.didSelectEvent(event, frame: frame)
+    func didSelectAllDayEvent(_ event: Event, view: UIView?, frame: CGRect?) {
+      params.delegate?.didSelectEvent(event, view: view, frame: frame)
     }
     
 }

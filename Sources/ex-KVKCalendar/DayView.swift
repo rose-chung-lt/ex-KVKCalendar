@@ -227,8 +227,8 @@ extension DayView: TimelineDelegate {
         delegate?.didDisplayEvents(events, dates: dates, type: .day)
     }
     
-    func didSelectEvent(_ event: Event, frame: CGRect?) {
-        delegate?.didSelectEvent(event, type: .day, frame: frame)
+    func didSelectEvent(_ event: Event, view: UIView?, frame: CGRect?) {
+        delegate?.didSelectEvent(event, type: .day, view: view, frame: frame)
     }
     
     func nextDate() {

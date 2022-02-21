@@ -516,7 +516,7 @@ extension TimelineView: EventDelegate {
     
     func didSelectEvent(_ event: Event, gesture: UITapGestureRecognizer) {
         forceDeselectEvent()
-        delegate?.didSelectEvent(event, frame: gesture.view?.frame)
+        delegate?.didSelectEvent(event, view: gesture.view, frame: gesture.view?.frame)
     }
     
     func didStartResizeEvent(_ event: Event, gesture: UILongPressGestureRecognizer, view: UIView) {
@@ -733,8 +733,8 @@ extension TimelineView: CalendarSettingProtocol {
 
 extension TimelineView: AllDayEventDelegate {
     
-    func didSelectAllDayEvent(_ event: Event, frame: CGRect?) {
-        delegate?.didSelectEvent(event, frame: frame)
+    func didSelectAllDayEvent(_ event: Event, view: UIView?, frame: CGRect?) {
+        delegate?.didSelectEvent(event, view: view, frame: frame)
     }
     
 }
