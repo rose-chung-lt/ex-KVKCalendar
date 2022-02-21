@@ -9,7 +9,7 @@
 
 import UIKit
 
-final class MonthHeaderView: UICollectionReusableView {
+public final class MonthHeaderView: UICollectionReusableView {
     
     private let dateLabel: UILabel = {
         let label = UILabel()

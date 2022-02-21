@@ -9,7 +9,7 @@
 
 import Foundation
 
-final class YearData {
+public final class YearData {
     
     struct YearSection {
         let date: Date

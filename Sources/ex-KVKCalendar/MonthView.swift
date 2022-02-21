@@ -9,7 +9,7 @@
 
 import UIKit
 
-final class MonthView: UIView {
+public final class MonthView: UIView {
     
     struct Parameters {
         var monthData: MonthData
@@ -290,7 +290,7 @@ extension MonthView: CalendarSettingProtocol {
 
 extension MonthView: UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
     
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+  public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         indexPaths.forEach {
             let indexPath = getIndexForDirection(style.month.scrollDirection, indexPath: $0)
             let item = parameters.monthData.getDay(indexPath: indexPath)
@@ -307,15 +307,15 @@ extension MonthView: UICollectionViewDataSource, UICollectionViewDataSourcePrefe
         }
     }
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+  public func numberOfSections(in collectionView: UICollectionView) -> Int {
         parameters.monthData.data.months.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         parameters.monthData.data.months[section].days.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+  public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let item = getActualCachedDay(indexPath: indexPath)
         guard let day = item.day else { return UICollectionViewCell() }
         
@@ -360,7 +360,7 @@ extension MonthView: UICollectionViewDataSource, UICollectionViewDataSourcePrefe
 
 extension MonthView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+  public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if !style.month.isPagingEnabled, let visibleItems = collectionView?.indexPathsForVisibleItems.sorted(by: { $0.row < $1.row }) {
             let middleIndex = visibleItems[visibleItems.count / 2]
             let month = parameters.monthData.data.months[middleIndex.section]
@@ -381,7 +381,7 @@ extension MonthView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayou
         }
     }
     
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+  public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         guard style.month.isPagingEnabled else { return }
         
         let visibleIndex: Int
@@ -418,7 +418,7 @@ extension MonthView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayou
         reload()
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+  public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = getActualCachedDay(indexPath: indexPath)
         guard let date = item.day?.date else { return }
         
@@ -433,7 +433,7 @@ extension MonthView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayou
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+  public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let item = getActualCachedDay(indexPath: indexPath)
         
         if let day = item.day, let size = delegate?.sizeForCell(day.date, type: .month) {
@@ -471,7 +471,7 @@ extension MonthView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayou
         return CGSize(width: width, height: height)
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+  public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let month = parameters.monthData.data.months[indexPath.section]
         let index = IndexPath(row: 0, section: indexPath.section)
         
@@ -485,7 +485,7 @@ extension MonthView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayou
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+  public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         guard !style.month.isHiddenSectionHeader else { return .zero }
         
         let item = getActualCachedDay(indexPath: IndexPath(row: 0, section: section))

@@ -9,7 +9,7 @@
 
 import UIKit
 
-final class MonthData: EventDateProtocol {
+public final class MonthData: EventDateProtocol {
     
     typealias DayOfMonth = (indexPath: IndexPath, day: Day?, weeks: Int)
     

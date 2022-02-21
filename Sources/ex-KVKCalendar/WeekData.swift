@@ -9,7 +9,7 @@
 
 import Foundation
 
-struct WeekData {
+public struct WeekData {
     let days: [Day]
     var date: Date
     var events: [Event] = []

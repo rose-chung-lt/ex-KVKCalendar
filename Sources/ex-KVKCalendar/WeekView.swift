@@ -9,7 +9,7 @@
 
 import UIKit
 
-final class WeekView: UIView {
+public final class WeekView: UIView {
     
     struct Parameters {
         var visibleDates: [Date?] = []
@@ -202,12 +202,12 @@ final class WeekView: UIView {
 
 extension WeekView: DisplayDataSource {
     
-    func willDisplayEventView(_ event: Event, frame: CGRect, date: Date?) -> EventViewGeneral? {
+    public func willDisplayEventView(_ event: Event, frame: CGRect, date: Date?) -> EventViewGeneral? {
         dataSource?.willDisplayEventView(event, frame: frame, date: date)
     }
     
     @available(iOS 14.0, *)
-    func willDisplayEventOptionMenu(_ event: Event, type: CalendarType) -> (menu: UIMenu, customButton: UIButton?)? {
+    public func willDisplayEventOptionMenu(_ event: Event, type: CalendarType) -> (menu: UIMenu, customButton: UIButton?)? {
         dataSource?.willDisplayEventOptionMenu(event, type: type)
     }
     

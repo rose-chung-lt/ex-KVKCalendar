@@ -9,7 +9,7 @@
 
 import Foundation
 
-struct CalendarData {
+public struct CalendarData {
     private let style: Style
     
     let maxBoxCount = 42
@@ -177,14 +177,14 @@ struct CalendarData {
     }
 }
 
-struct Month {
+public struct Month {
     let name: String
     let date: Date
     var days: [Day]
     var weeks: Int
 }
 
-struct Day {
+public struct Day {
     let type: DayType
     var date: Date?
     var events: [Event]

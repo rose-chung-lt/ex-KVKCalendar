@@ -54,7 +54,7 @@ final class MonthCell: KVKCollectionViewCell {
         return longGesture
     }()
     
-    override var isHighlighted: Bool {
+  override var isHighlighted: Bool {
         didSet {
             guard style.month.isAnimateSelection else { return }
             
@@ -467,14 +467,14 @@ final class MonthCell: KVKCollectionViewCell {
 }
 
 extension MonthCell: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
 
 @available(iOS 13.4, *)
 extension MonthCell: PointerInteractionProtocol {
-    func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
+  func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
         var pointerStyle: UIPointerStyle?
         
         if let interactionView = interaction.view {

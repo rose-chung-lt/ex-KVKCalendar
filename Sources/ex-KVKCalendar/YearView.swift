@@ -9,7 +9,7 @@
 
 import UIKit
 
-final class YearView: UIView {
+public final class YearView: UIView {
     private var data: YearData
     private var animated: Bool = false
     private var collectionView: UICollectionView?
@@ -157,15 +157,15 @@ extension YearView: CalendarSettingProtocol {
 }
 
 extension YearView: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+  public func numberOfSections(in collectionView: UICollectionView) -> Int {
         data.sections.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         data.sections[section].months.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+  public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let index = getIndexForDirection(data.style.year.scrollDirection, indexPath: indexPath)
         let month = data.sections[index.section].months[index.row]
         
@@ -182,7 +182,7 @@ extension YearView: UICollectionViewDataSource {
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+  public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let index = getIndexForDirection(data.style.year.scrollDirection, indexPath: indexPath)
         let date = data.sections[index.section].date
         
@@ -198,7 +198,7 @@ extension YearView: UICollectionViewDataSource {
 }
 
 extension YearView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+  public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         guard data.style.year.isAutoSelectDateScrolling else { return }
         
         let cells = collectionView?.indexPathsForVisibleItems ?? []
@@ -206,7 +206,7 @@ extension YearView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
         delegate?.didDisplayEvents([], dates: dates, type: .year)
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+  public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let index = getIndexForDirection(data.style.year.scrollDirection, indexPath: indexPath)
         let date = data.sections[index.section].months[index.row].date
         let formatter = DateFormatter()
@@ -222,7 +222,7 @@ extension YearView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
         collectionView.reloadData()
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+  public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let index = getIndexForDirection(data.style.year.scrollDirection, indexPath: indexPath)
         if let size = delegate?.sizeForCell(data.sections[index.section].months[index.row].date, type: .year) {
             return size
@@ -250,7 +250,7 @@ extension YearView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
         return CGSize(width: width, height: height)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+  public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let index = getIndexForDirection(data.style.year.scrollDirection, indexPath: IndexPath(row: 0, section: section))
         let date = data.sections[index.section].date
         
