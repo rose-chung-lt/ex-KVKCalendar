@@ -140,6 +140,15 @@ final class YearCell: UICollectionViewCell {
             weekendsDays(day: day, label: label, view: view)
             addSubview(view)
             view.addSubview(label)
+            // Add event dot indicator
+            let dot = UIView(frame: CGRect(x: 0, y: 0, width: 2, height: 2))
+            dot.backgroundColor = .gray
+            dot.alpha = day.events.count > 0 ? 0.3 : 0
+            dot.clipsToBounds = true
+            dot.setRoundCorners(radius: CGSize(width: 1, height: 1))
+            dot.frame.origin.x = label.frame.midX - 1
+            dot.frame.origin.y = label.frame.maxY - 2
+            view.addSubview(dot)
         }
     }
     

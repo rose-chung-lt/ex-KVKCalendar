@@ -75,7 +75,7 @@ public final class ListView: UIView, CalendarSettingProtocol {
         tableView.frame = CGRect(origin: .zero, size: frame.size)
     }
     
-    func reloadData(_ events: [Event]) {
+    func reloadData(_ events: [Event], _ date: Date?) {
         params.data.reloadEvents(events)
         tableView.reloadData()
     }

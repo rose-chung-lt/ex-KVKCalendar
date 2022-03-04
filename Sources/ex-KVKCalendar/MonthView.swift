@@ -19,6 +19,7 @@ public final class MonthView: UIView {
     private var parameters: Parameters
     private var collectionView: UICollectionView?
     private var eventPreview: UIView?
+    private var skipHeaderUpdate: Bool = false
     
     weak var delegate: DisplayDelegate?
     weak var dataSource: DisplayDataSource?
@@ -62,9 +63,9 @@ public final class MonthView: UIView {
         scrollToDate(date, animated: animated ?? false)
     }
     
-    func reloadData(_ events: [Event]) {
+    func reloadData(_ events: [Event], _ date: Date?) {
         let displayableValues = parameters.monthData.reloadEventsInDays(events: events,
-                                                                        date: parameters.monthData.date)
+                                                                        date: date ?? parameters.monthData.date)
         delegate?.didDisplayEvents(displayableValues.events, dates: displayableValues.dates, type: .month)
         reload()
     }
@@ -112,6 +113,7 @@ public final class MonthView: UIView {
         if let idx = parameters.monthData.data.months.firstIndex(where: { $0.date.month == date.month && $0.date.year == date.year }) {
             scrollToIndex(idx, animated: animated)
         }
+        skipHeaderUpdate = !animated
     }
     
     private func scrollToIndex(_ idx: Int, animated: Bool) {
@@ -141,20 +143,23 @@ public final class MonthView: UIView {
         }
     }
     
-    private func didSelectDates(_ dates: [Date], indexPath: IndexPath) {
+    private func didSelectDates(_ dates: [Date], indexPath: IndexPath?) {
         guard let date = dates.last else {
             reload()
             return
         }
         
         parameters.monthData.date = date
+        skipHeaderUpdate = true
         updateHeaderView(date, frame: headerViewFrame)
-        
-        let index = getActualCachedDay(indexPath: indexPath).indexPath
-        let attributes = collectionView?.layoutAttributesForItem(at: index)
-        let frame = collectionView?.convert(attributes?.frame ?? .zero, to: collectionView) ?? .zero
-        
-        delegate?.didSelectDates(dates, type: style.month.selectCalendarType, frame: frame)
+
+        var dateFrame: CGRect = .zero
+        if let idx = indexPath {
+          let index = getActualCachedDay(indexPath: idx).indexPath
+          let attributes = collectionView?.layoutAttributesForItem(at: index)
+          dateFrame = collectionView?.convert(attributes?.frame ?? .zero, to: collectionView) ?? .zero
+        }
+        delegate?.didSelectDates(dates, type: style.month.selectCalendarType, frame: dateFrame)
         reload()
     }
     
@@ -218,7 +223,7 @@ extension MonthView: CalendarSettingProtocol {
     func updateStyle(_ style: Style) {
         parameters.style = style
         headerView.updateStyle(style)
-        setUI()
+        // MARK: don't reset ui in update Style
         scrollToDate(parameters.monthData.date, animated: false)
     }
     
@@ -359,6 +364,38 @@ extension MonthView: UICollectionViewDataSource, UICollectionViewDataSourcePrefe
 // MARK: UICollectionViewDelegate
 
 extension MonthView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+
+  public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    if skipHeaderUpdate {
+      skipHeaderUpdate = false
+      reloadEvents(by: parameters.monthData.date)
+    } else if let cell = collectionView?.visibleCells.first(where: { ($0 as? MonthCell)?.day.date?.day == 15 }) as? MonthCell, let date = cell.day.date {
+      reloadEvents(by: date)
+      updateHeaderView(date, frame: headerViewFrame)
+    }
+  }
+
+  private func reloadEvents(by date :Date) {
+    if date.startOfMonth != headerView.date?.startOfMonth {
+      if let events = dataSource?.eventsForCalendar(systemEvents: [], baseDate: date) {
+        DispatchQueue.global(qos: .background).async {
+          let displayableValues = self.parameters.monthData.reloadEventsInDays(events: events,
+                                                                               date: date)
+          self.delegate?.didDisplayEvents(displayableValues.events, dates: displayableValues.dates, type: .month)
+          DispatchQueue.main.async {
+            self.collectionView?.performBatchUpdates({
+              self.parameters.monthData.days.removeAll()
+              if #available(iOS 15.0, *) {
+                self.collectionView?.reconfigureItems(at: self.collectionView?.indexPathsForVisibleItems ?? [])
+              } else {
+                self.collectionView?.reloadItems(at: self.collectionView?.indexPathsForVisibleItems ?? [])
+              }
+            })
+          }
+        }
+      }
+    }
+  }
     
   public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if !style.month.isPagingEnabled, let visibleItems = collectionView?.indexPathsForVisibleItems.sorted(by: { $0.row < $1.row }) {

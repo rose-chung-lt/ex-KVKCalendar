@@ -120,42 +120,44 @@ public final class MonthData: EventDateProtocol {
         guard let idxSection = data.months.firstIndex(where: { $0.date.month == date.month && $0.date.year == date.year }) else {
             return ([], [])
         }
-        
-        let days = data.months[idxSection].days
+
         var displayableEvents = [Event]()
+        var allUpdatedDays = [Date?]()
+        for idx in max(0, idxSection - 1) ..< min(data.months.count, idxSection + 2) {
+        let days = data.months[idx].days
         let updatedDays = days.reduce([], { (acc, day) -> [Day] in
-            var newDay = day
-            guard newDay.events.isEmpty else { return acc + [day] }
-            
-            let filteredEventsByDay = events.filter({ compareStartDate(day.date, with: $0) && !$0.isAllDay })
-            let filteredAllDayEvents = events.filter({ $0.isAllDay })
-            let allDayEvents = filteredAllDayEvents.filter({ compareStartDate(day.date, with: $0) || compareEndDate(day.date, with: $0) })
-            
-            let recurringEventByDate: [Event]
-            if !recurringEvents.isEmpty, let date = day.date {
-                recurringEventByDate = recurringEvents.reduce([], { (acc, event) -> [Event] in
-                    guard !filteredEventsByDay.contains(where: { $0.ID == event.ID })
-                            && (date.compare(event.start) == .orderedDescending
-                                || showRecurringEventInPast) else { return acc }
-                    
-                    guard let recurringEvent = event.updateDate(newDate: date, calendar: calendar) else {
-                        return acc
-                    }
-                    
-                    return acc + [recurringEvent]
-                })
-            } else {
-                recurringEventByDate = []
-            }
-            
-            let sortedEvents = (filteredEventsByDay + recurringEventByDate).sorted(by: { $0.start.hour < $1.start.hour })
-            newDay.events = allDayEvents + sortedEvents.sorted(by: { $0.isAllDay && !$1.isAllDay })
-            displayableEvents += newDay.events
-            return acc + [newDay]
+          var newDay = day
+
+          let filteredEventsByDay = events.filter({ compareStartDate(day.date, with: $0) && !$0.isAllDay })
+          let filteredAllDayEvents = events.filter({ $0.isAllDay })
+          let allDayEvents = filteredAllDayEvents.filter({ compareStartDate(day.date, with: $0) || compareEndDate(day.date, with: $0) })
+
+          let recurringEventByDate: [Event]
+          if !recurringEvents.isEmpty, let date = day.date {
+            recurringEventByDate = recurringEvents.reduce([], { (acc, event) -> [Event] in
+              guard !filteredEventsByDay.contains(where: { $0.ID == event.ID })
+                      && (date.compare(event.start) == .orderedDescending
+                          || showRecurringEventInPast) else { return acc }
+
+              guard let recurringEvent = event.updateDate(newDate: date, calendar: calendar) else {
+                return acc
+              }
+
+              return acc + [recurringEvent]
+            })
+          } else {
+            recurringEventByDate = []
+          }
+
+          let sortedEvents = (filteredEventsByDay + recurringEventByDate).sorted(by: { $0.start.hour < $1.start.hour })
+          newDay.events = allDayEvents + sortedEvents.sorted(by: { $0.isAllDay && !$1.isAllDay })
+          displayableEvents += newDay.events
+          return acc + [newDay]
         })
-        
-        data.months[idxSection].days = updatedDays
-        return (displayableEvents, updatedDays.map({ $0.date }))
+        allUpdatedDays += updatedDays.map({ $0.date })
+        data.months[idx].days = updatedDays
+      }
+      return (displayableEvents, allUpdatedDays)
     }
 }
 

@@ -63,7 +63,7 @@ public extension TimelineEventLayoutContext {
                 newFrame.size.height = (CGFloat(time.tag) * (calculatedTimeY + time.frame.height)) - newFrame.origin.y + (time.frame.height / 2)
             }
         }
-
+        newFrame.size.height = max(newFrame.size.height, 18)
         return newFrame
     }
 }

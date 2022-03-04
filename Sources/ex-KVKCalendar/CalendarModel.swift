@@ -251,7 +251,7 @@ protocol CalendarSettingProtocol: AnyObject {
     
     func reloadFrame(_ frame: CGRect)
     func updateStyle(_ style: Style)
-    func reloadData(_ events: [Event])
+    func reloadData(_ events: [Event], _ date: Date?)
     func setDate(_ date: Date)
     func setUI()
     
@@ -259,7 +259,7 @@ protocol CalendarSettingProtocol: AnyObject {
 
 extension CalendarSettingProtocol {
     
-    func reloadData(_ events: [Event]) {}
+    func reloadData(_ events: [Event], _ date: Date?) {}
     func setDate(_ date: Date) {}
     
 }
@@ -270,6 +270,8 @@ public protocol CalendarDataSource: AnyObject {
     /// get events to display on view
     /// also this method returns a system events from iOS calendars if you set the property `systemCalendar` in style
     func eventsForCalendar(systemEvents: [EKEvent]) -> [Event]
+
+    func eventsForCalendar(systemEvents: [EKEvent], baseDate: Date) -> [Event]
     
     func willDisplayDate(_ date: Date?, events: [Event])
     
@@ -433,6 +435,8 @@ protocol DisplayDataSource: CalendarDataSource {}
 
 extension DisplayDataSource {
     public func eventsForCalendar(systemEvents: [EKEvent]) -> [Event] { [] }
+
+    public func eventsForCalendar(systemEvents: [EKEvent], baseDate: Date) -> [Event] { [] }
 }
 
 // MARK: - Private Display delegate

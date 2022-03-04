@@ -33,13 +33,13 @@ extension CalendarView {
             
             switch parameters.type {
             case .day:
-                dayView.reloadData(events)
+                dayView.reloadData(events, nil)
             case .week:
-                weekView.reloadData(events)
+                weekView.reloadData(events, nil)
             case .month:
-                monthView.reloadData(events)
+                monthView.reloadData(events, nil)
             case .list:
-                listView.reloadData(events)
+                listView.reloadData(events, nil)
             default:
                 break
             }
@@ -215,6 +215,16 @@ extension CalendarView {
             cacheView.updateStyle(style)
         }
     }
+}
+
+extension CalendarView: CalendarDataSource {
+  public func eventsForCalendar(systemEvents: [EKEvent]) -> [Event] {
+    dataSource?.eventsForCalendar(systemEvents: systemEvents) ?? []
+  }
+
+  public func eventsForCalendar(systemEvents: [EKEvent], baseDate: Date) -> [Event] {
+    dataSource?.eventsForCalendar(systemEvents: systemEvents, baseDate: baseDate) ?? []
+  }
 }
 
 extension CalendarView: DisplayDataSource {

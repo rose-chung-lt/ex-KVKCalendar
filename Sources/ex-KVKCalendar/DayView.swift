@@ -43,9 +43,10 @@ public final class DayView: UIView {
                 self?.delegate?.didSelectDates([item], type: type, frame: nil)
             }
         }
-        view.didTrackScrollOffset = { [weak self] (offset, stop) in
-            self?.timelinePage.timelineView?.moveEvents(offset: offset, stop: stop)
-        }
+      // disabled track offset
+//        view.didTrackScrollOffset = { [weak self] (offset, stop) in
+//            self?.timelinePage.timelineView?.moveEvents(offset: offset, stop: stop)
+//        }
         view.didChangeDay = { [weak self] (type) in
             guard let self = self else { return }
             
@@ -175,7 +176,7 @@ public final class DayView: UIView {
         scrollHeaderDay.setDate(date)
     }
     
-    func reloadData(_ events: [Event]) {
+    func reloadData(_ events: [Event], _ date: Date?) {
         parameters.data.events = events
         timelinePage.timelineView?.create(dates: [parameters.data.date],
                                            events: events,

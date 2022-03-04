@@ -82,8 +82,8 @@ public final class YearView: UIView {
     private func scrollToDate(date: Date, animated: Bool) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             if let idx = self.data.sections.firstIndex(where: { $0.date.year == date.year }) {
-                self.collectionView?.scrollToItem(at: IndexPath(row: 0, section: idx),
-                                                  at: self.scrollDirection(month: date.month),
+                self.collectionView?.scrollToItem(at: IndexPath(row: 11, section: idx),
+                                                  at: .bottom,
                                                   animated: animated)
             }
         }
@@ -140,7 +140,10 @@ extension YearView: CalendarSettingProtocol {
     
     func updateStyle(_ style: Style) {
         self.data.style = style
-        setUI()
+        // no need to recreate collectionView just update style and reloadData.
+        collectionView?.backgroundColor = style.year.colorBackground
+        collectionView?.isPagingEnabled = style.year.isPagingEnabled
+        collectionView?.reloadData()
         scrollToDate(date: data.date, animated: false)
     }
     

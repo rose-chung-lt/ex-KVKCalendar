@@ -17,6 +17,9 @@ final class EventView: EventViewGeneral {
         text.backgroundColor = .clear
         text.isScrollEnabled = false
         text.isUserInteractionEnabled = false
+        text.showsHorizontalScrollIndicator = false
+        text.showsVerticalScrollIndicator = false
+        text.textContainerInset = UIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
         text.textContainer.lineBreakMode = .byTruncatingTail
         text.textContainer.lineFragmentPadding = 0
         return text

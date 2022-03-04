@@ -25,7 +25,7 @@ public struct DefaultTimelineEventLayout: TimelineEventLayout {
             if let crossEvent = crossEvents[event.start.timeIntervalSince1970] {
                 var newOriginX = frame.origin.x
                 var newWidth = frame.width
-                newWidth /= CGFloat(crossEvent.events.count)
+                newWidth /= CGFloat(max(crossEvent.events.count, 1))
                 newWidth -= context.style.timeline.offsetEvent
                 frame.size.width = newWidth
 

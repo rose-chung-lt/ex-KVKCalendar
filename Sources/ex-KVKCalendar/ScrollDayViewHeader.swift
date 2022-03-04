@@ -470,16 +470,18 @@ extension ScrollDayHeaderView: UICollectionViewDelegate, UICollectionViewDelegat
             
             date = dateNew
             selectDate(date, type: .day)
+            didSelectDate?(date, type)
         case .week:
             guard let dateNew = days[indexPath.row].date else { return }
             
             date = dateNew
             selectDate(date, type: style.week.selectCalendarType)
+            didSelectDate?(date, style.week.selectCalendarType)
         default:
             break
         }
         
-        didSelectDate?(date, type)
+
         collectionView.reloadData()
     }
     
